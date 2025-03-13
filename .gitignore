@@ -1,0 +1,7 @@
+# Pyhton env files and folders
+Include/
+Lib/
+Scripts/
+pyvenv.cfg
+
+# Custom
