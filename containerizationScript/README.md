@@ -38,7 +38,7 @@ CMD ["python", "app.py"]
 ##  Screenshot
 Here is a screenshot of a generated Dockerfile:
 
-![Generated Dockerfile](generated_dockerfile.png)
+![Generated Dockerfile](generated_dockerfiles.png)
 
 ##  How It Works
 1. The script prompts the user to enter a programming language.
