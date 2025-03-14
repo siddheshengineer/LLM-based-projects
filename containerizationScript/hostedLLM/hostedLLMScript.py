@@ -1,8 +1,14 @@
-import ollama # Import ollama package
+from dotenv import dotenv_values
+import google.generativeai as genai
+
+secrets = dotenv_values(".env")
+
+genai.configure(api_key=secrets["G_API"])
+model = genai.GenerativeModel('gemini-2.0-flash')
 
 # Multi line prompt, to specify the exact requirement (few-shot prompt)
 PROMPT = """
-ONLY give the generated the ideal docker file as the output, for the {language} with best practices. Do not provide any description. If version is not mentioned use the latest LTS version.
+ONLY Generate the ideal docker file for the {language} with best practices. Do not provide any description. If version is not mentioned use the latest LTS version.
 Include:
 - If applicable use multistage docker build
 - BASE_IMAGE
@@ -14,8 +20,8 @@ Include:
 """
 # Function to generate the docker file
 def generateDockerFile(language):
-    response = ollama.chat(model='llama3.2:1b', messages=[{'role': 'user', 'content': PROMPT.format(language=language)}])
-    return response['message']['content']
+    response = model.generate_content(PROMPT.format(language=language))
+    return response.text
 
 # Call the function
 if __name__ == '__main__':
