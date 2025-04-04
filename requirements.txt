@@ -1,6 +1,14 @@
+#AI specific packages
 ollama
-python-dotenv
 google.generativeai
 langchain
 langchain-google-genai
+langchain-community
+
+# Python specific packages
+python-dotenv
 pydantic
+
+# Others
+wikipedia
+duckduckgo_search
