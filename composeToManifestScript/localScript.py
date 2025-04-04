@@ -1,5 +1,5 @@
 ### IMP ###
-# Unable to test thi, due to system capabilities. Use script.py for hosted solution.
+# Unable to test this, due to system capabilities. Use script.py for hosted solution.
 
 import ollama # Import ollama package
 from pathlib import Path
