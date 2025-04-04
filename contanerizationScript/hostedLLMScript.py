@@ -3,7 +3,7 @@ import google.generativeai as genai
 
 secrets = dotenv_values(".env")
 
-genai.configure(api_key=secrets["G_API"])
+genai.configure(api_key=secrets["GOOGLE_API_KEY"])
 model = genai.GenerativeModel('gemini-2.0-flash')
 
 # Multi line prompt, to specify the exact requirement (few-shot prompt)

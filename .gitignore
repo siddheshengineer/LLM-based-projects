@@ -7,3 +7,4 @@ venv/
 
 # Custom
 .env
+__pycache__

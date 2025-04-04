@@ -1,8 +1,8 @@
 from langchain.memory import ConversationBufferMemory
-from langchain_google_genai import GoogleGenerativeAI
-from langchain import LLMChain, PromptTemplate
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.prompts import PromptTemplate
+from langchain.chains import LLMChain
 from dotenv import dotenv_values
-import json
 
 secrets = dotenv_values(".env")
 
@@ -33,7 +33,7 @@ prompt = PromptTemplate(
 )
 
 
-llm = GoogleGenerativeAI(model="gemini-2.0-flash", google_api_key=secrets["G_API"])
+llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", google_api_key=secrets["GOOGLE_API_KEY"])
 llm_chain = LLMChain(
     llm=llm,
     prompt=prompt,
