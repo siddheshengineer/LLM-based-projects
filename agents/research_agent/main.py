@@ -1,9 +1,9 @@
 from dotenv import dotenv_values
-from pydantic import BaseModel
+#from pydantic import BaseModel
 import json
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import PydanticOutputParser
+#from langchain_core.output_parsers import PydanticOutputParser
 from langchain.agents import create_tool_calling_agent, AgentExecutor
 from tools import search_tool, wiki_tool, save_tool
 import json
@@ -19,10 +19,7 @@ secrets = dotenv_values(".env")
 llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", google_api_key=secrets["GOOGLE_API_KEY"])
 #parser = PydanticOutputParser(pydantic_object=ResearchResponse)
 
-## Just for fun ##
-# response = llm.invoke("What is the meaning of life?")
-# print(response)
-
+# Research
 prompt = ChatPromptTemplate.from_messages(
     [
         (
@@ -52,13 +49,7 @@ query = input("What information you want to research today? ")
 raw_response = agent_executor.invoke({"query": query})
 print(raw_response)
 
-# try:
-#     fixed_parser = OutputFixingParser.from_parser(parser)
-#     structured_response = fixed_parser.parser(raw_response)
-#     print(structured_response)
-# except Exception as e:
-#     print("Error parsing:", e)
-
+# Save to file
 try:
     structured_response = raw_response.get("output")
     print("-------------------Structure response--------------------")
