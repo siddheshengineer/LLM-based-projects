@@ -1,96 +1,44 @@
-from dotenv import dotenv_values
-#from pydantic import BaseModel
-import json
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_core.prompts import ChatPromptTemplate
-#from langchain_core.output_parsers import PydanticOutputParser
-from langchain.agents import create_tool_calling_agent, AgentExecutor
-from tools import search_tool, wiki_tool, save_tool
-import json
+# main.py
+from fastapi import FastAPI, Request, Form
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+import uvicorn
+from core import run_research, save_research
+from fastapi import HTTPException
+import re
 
-secrets = dotenv_values(".env")
 
-# class ResearchResponse(BaseModel):
-#     topic: str
-#     summary: str
-#     sources: list[str]
-#     tools_used: list[str]
-
-llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", google_api_key=secrets["GOOGLE_API_KEY"])
-#parser = PydanticOutputParser(pydantic_object=ResearchResponse)
-
-# Research
-prompt = ChatPromptTemplate.from_messages(
-    [
-        (
-            "system",
-            """
-            "You are a research assistant that will help generate a research paper. "
-            "FOR LATEST information use the tools at your disposal."
-            "Provide three paragraphs of 5 lines/500 characters each."),
-            """,
-        ),
-        ("placeholder", "{chat_history}"),
-        ("human", "{query}"),
-        ("placeholder", "{agent_scratchpad}"),
-    ]
-) 
-
-tools = [search_tool, wiki_tool]
-agent = create_tool_calling_agent(
-    llm=llm,
-    prompt=prompt,
-    tools=tools
+# Setup fastAPI app
+app = FastAPI(
+    title="Research Assistant API",
+    description="An AI-powered research assistant that generates and saves research papers",
+    version="1.0.0"
 )
+templates = Jinja2Templates(directory="./templates")
+import os
+os.makedirs("./downloads", exist_ok=True)
+app.mount("/downloads", StaticFiles(directory="./downloads"), name="downloads")
 
-agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+@app.get("/", response_class=HTMLResponse)
+def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
-query = input("What information you want to research today? ")
-raw_response = agent_executor.invoke({"query": query})
-print(raw_response)
+@app.post("/research", response_class=HTMLResponse)
+async def research(request: Request, query: str = Form(...)):
+    try:
+        structure_response = run_research(query)
+        save_response = save_research(structure_response)
+        #print(save_response)
+        match = re.search(r"(/downloads/[\w\-]+\.txt)", save_response)
+        file_path = match.group(1) if match else None
+        if file_path is None:
+            match = re.search(r"(\/downloads\/.*?\.txt)", save_response)
+            file_path = match.group(1) if match else None
+        print(save_response, "\n", file_path)
+        return templates.TemplateResponse("result.html", {"request": request, "query": query, "output": structure_response, "save_msg": file_path})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Research generation failed: {str(e)}")
 
-# Save to file
-try:
-    structured_response = raw_response.get("output")
-    print("-------------------Structure response--------------------")
-    
-    print(structured_response)
-
-    response = structured_response
-
-    prompt_save = ChatPromptTemplate.from_messages(
-        [
-            (
-                "system",
-                """
-                You are a junior assistant that will help save research in a markdown format.
-                You will receive research data and MUST call the appropriate tool to save it to a text file.
-                File will start with Topic: add research topic here, then Summary: Add rest of the data
-                DO NOT generate the output yourself. ONLY call the tool to save the data.
-                """,
-            ),
-            ("placeholder", "{chat_history}"),
-            ("human", "{query}"),
-            ("placeholder", "{agent_scratchpad}"),
-        ]
-    )#.partial(format_instructions=parser.get_format_instructions())  # This is leading to Tool Call Mismanagement, LLM pretending to use tools.
-
-    tools_save = [save_tool]
-    agent_save = create_tool_calling_agent(
-    llm=llm,
-    prompt=prompt_save,
-    tools=tools_save
-    )
-
-    save_executor = AgentExecutor(agent=agent_save, tools=tools_save, verbose=True)
-    response = save_executor.invoke({"query": json.dumps(response, indent=2)})
-    print("Save tool response:", response)
-
-
-except Exception as e:
-    print("Error parsing output, ", e, "Raw response - \n", raw_response)
-
-
-
-
-
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

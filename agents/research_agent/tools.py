@@ -3,16 +3,22 @@ from langchain_community.utilities import WikipediaAPIWrapper
 from langchain.tools import Tool
 from datetime import datetime
 
-def save_to_txt( data: str, filename: str = None):
+def save_to_txt(data: str, filename: str = None):
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     if not filename:
         filename = f"research_{timestamp}.txt"
+    
+    # Ensure the downloads directory exists
+    import os
+    os.makedirs("./downloads", exist_ok=True)
+    
+    path = f"./downloads/{filename}"  # Save in static folder
     formatted_text = f"--- Research Output ---\nTimestamp: {timestamp}\n\n{data}\n\n"
 
-    with open(filename, "a", encoding="utf-8") as f:
+    with open(path, "a", encoding="utf-8") as f:
         f.write(formatted_text)
     
-    return f"Data successfully saved to {filename}"
+    return f"/downloads/{filename}" 
 
 save_tool = Tool(
     name="save_text_to_file",

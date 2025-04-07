@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Research Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4361ee',
+                        secondary: '#3f37c9',
+                        accent: '#f72585'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <div class="container max-w-4xl mx-auto my-8 px-4 py-8 bg-white rounded-lg shadow-md flex-1">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-primary mb-2">AI Research Assistant</h1>
+            <p class="text-gray-600 text-lg">Generate comprehensive research on any topic</p>
+        </header>
+
+        <form action="/research" method="post" class="mt-8">
+            <div class="mb-6">
+                <label for="query" class="block font-semibold text-gray-800 mb-2">What would you like to research?</label>
+                <textarea 
+                    id="query" 
+                    name="query" 
+                    placeholder="Enter your research topic here..." 
+                    required
+                    class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent min-h-40 text-base"
+                ></textarea>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="bg-primary hover:bg-secondary text-white font-bold py-3 px-8 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+                    Generate Research
+                </button>
+            </div>
+        </form>
+
+        <div class="mt-8 p-4 bg-gray-50 rounded-lg">
+            <h3 class="font-semibold text-gray-700 mb-2">Example Topics:</h3>
+            <div class="flex flex-wrap gap-2">
+                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-300" onclick="document.getElementById('query').value='The impact of artificial intelligence on modern healthcare'">AI in Healthcare</span>
+                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-300" onclick="document.getElementById('query').value='Climate change adaptation strategies for urban areas'">Climate Change</span>
+                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-300" onclick="document.getElementById('query').value='The evolution of quantum computing and its practical applications'">Quantum Computing</span>
+                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-300" onclick="document.getElementById('query').value='Sustainable architecture principles for the 21st century'">Sustainable Architecture</span>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="text-center py-4 text-gray-600 text-sm">
+        &copy; 2025 Research Assistant | Powered by LangChain & Gemini | Creator: Siddhesh Nikam
+    </footer>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# AI specific
+langchain
+langchain-google-genai
+langchain-community
+
+# Python specific packages
+python-dotenv
+pydantic
+fastapi
+uvicorn
+jinja2
+dotenv
+re
+
+# Others
+wikipedia
+duckduckgo_search

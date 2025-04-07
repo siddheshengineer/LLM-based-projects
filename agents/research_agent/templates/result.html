@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Results</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4361ee',
+                        secondary: '#3f37c9',
+                        accent: '#f72585'
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        // Function to trigger automatic download
+        window.onload = function() {
+            // Check if there's a download link
+            const downloadLink = document.getElementById('download-link');
+            if (downloadLink) {
+                // Trigger automatic download after 1 second
+                setTimeout(() => {
+                    downloadLink.click();
+                }, 1000);
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container max-w-4xl mx-auto my-8 px-4">
+        <header class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h1 class="text-3xl font-bold text-primary mb-2">Research Results</h1>
+            <h2 class="text-xl font-semibold text-gray-700">Topic: {{ query }}</h2>
+        </header>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6 border-l-4 border-primary">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Generated Research</h3>
+            <div class="bg-gray-50 p-4 rounded whitespace-pre-wrap text-gray-700">{{ output }}</div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6 border-l-4 border-accent">
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">File Saved</h3>
+            <p class="text-gray-600 mb-4">Your research has been saved and is ready for download.</p>
+            
+            {% if save_msg %}
+                <a 
+                    id="download-link"
+                    href="{{ save_msg }}" 
+                    download 
+                    class="inline-block bg-accent hover:bg-pink-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5  w-5 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    Download Research
+                </a>
+            {% endif %}
+        </div>
+        
+        <div class="text-center">
+            <a href="/" class="inline-block bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out">
+                Research Another Topic
+            </a>
+        </div>
+    </div>
+    
+    <footer class="text-center py-4 text-gray-600 text-sm">
+        &copy; 2025 Research Assistant | Powered by LangChain & Gemini | Creator: Siddhesh Nikam
+    </footer>
+</body>
+</html>
