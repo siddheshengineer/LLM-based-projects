@@ -42,3 +42,10 @@ az containerapp logs show \
     --type=system \
     --follow=true
 ```
+# Settting up custom URL: 
+```bash
+az containerapp hostname add --hostname $CUST_HOST -g $RG_NAME -n $APP_NAME
+
+az containerapp hostname bind --hostname $CUST_HOST -g $RG_NAME -n $APP_NAME \
+> --environment llm-env --validation-method CNAME
+```
