@@ -3,10 +3,11 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain.agents import create_tool_calling_agent, AgentExecutor
 from tools import search_tool, wiki_tool, save_tool
 from dotenv import dotenv_values
+import os
 
 
 secrets = dotenv_values(".env")
-google_api_key=secrets["GOOGLE_API_KEY"]
+google_api_key = secrets.get("GOOGLE_API_KEY") or os.environ.get("GOOGLE_API_KEY")
 if not google_api_key:
     raise  ValueError("API key missing")
 

@@ -15,15 +15,21 @@ app = FastAPI(
     description="An AI-powered research assistant that generates and saves research papers",
     version="1.0.0"
 )
+
+# Initialize Jinja templated
 templates = Jinja2Templates(directory="./templates")
+
+# Create directory and mount it
 import os
 os.makedirs("./downloads", exist_ok=True)
 app.mount("/downloads", StaticFiles(directory="./downloads"), name="downloads")
 
+# Render landing page
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+# Render research page and call appropriate functions.
 @app.post("/research", response_class=HTMLResponse)
 async def research(request: Request, query: str = Form(...)):
     try:

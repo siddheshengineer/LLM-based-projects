@@ -7,10 +7,10 @@ langchain-community
 python-dotenv
 pydantic
 fastapi
-uvicorn
+uvicorn[standard]
+gunicorn
 jinja2
-dotenv
-re
+python-multipart
 
 # Others
 wikipedia
