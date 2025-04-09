@@ -5,8 +5,9 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 import uvicorn
 from core import run_research, save_research
+from cleanup import cleanup_downloads
 from fastapi import HTTPException
-import re
+import threading, re 
 
 
 # Setup fastAPI app
@@ -45,6 +46,14 @@ async def research(request: Request, query: str = Form(...)):
         return templates.TemplateResponse("result.html", {"request": request, "query": query, "output": structure_response, "save_msg": file_path})
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Research generation failed: {str(e)}")
+
+# Run cleanup job
+threading.Thread(target=cleanup_downloads, daemon=True).start()
+
+# Health probe
+@app.get("/healthz")
+def health_check():
+    return {"status": "ok"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
