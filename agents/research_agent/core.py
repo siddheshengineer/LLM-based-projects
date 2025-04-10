@@ -24,7 +24,7 @@ research_prompt = ChatPromptTemplate.from_messages(
             """
             "You are a research assistant that will help generate a research paper. "
             "FOR LATEST information use the tools at your disposal."
-            "Provide three paragraphs of 5 lines/500 characters each."),
+            "Provide total of four paragraphs of 500 characters each."),
             """,
         ),
         ("placeholder", "{chat_history}"),
@@ -39,7 +39,7 @@ research_agent = create_tool_calling_agent(
     prompt=research_prompt,
     tools=research_tools
 )
-research_executor = AgentExecutor(agent=research_agent, tools=research_tools, verbose=True)
+research_executor = AgentExecutor(agent=research_agent, tools=research_tools, verbose=False)
 
 
 
@@ -73,7 +73,7 @@ save_agent = create_tool_calling_agent(
     prompt=save_prompt,
     tools=save_tools
     )
-save_executor = AgentExecutor(agent=save_agent, tools=save_tools, verbose=True)
+save_executor = AgentExecutor(agent=save_agent, tools=save_tools, verbose=False)
 
 def run_research(query: str) -> str: # Run the research and returns response
     result = research_executor.invoke({"query": query})

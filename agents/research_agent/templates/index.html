@@ -12,52 +12,223 @@
                     colors: {
                         primary: '#4361ee',
                         secondary: '#3f37c9',
-                        accent: '#f72585'
+                        accent: '#f72585',
+                        light: '#f8f9fa',
+                        dark: '#212529'
+                    },
+                    fontFamily: {
+                        'Quintessential': ['Quintessential', 'serif'],
                     }
                 }
             }
         }
     </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quintessential&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col">
-    <div class="container max-w-4xl mx-auto my-8 px-4 py-8 bg-white rounded-lg shadow-md flex-1">
-        <header class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-primary mb-2">AI Research Assistant</h1>
-            <p class="text-gray-600 text-lg">Generate comprehensive research on any topic</p>
-        </header>
-
-        <form action="/research" method="post" class="mt-8">
-            <div class="mb-6">
-                <label for="query" class="block font-semibold text-gray-800 mb-2">What would you like to research?</label>
-                <textarea 
-                    id="query" 
-                    name="query" 
-                    placeholder="Enter your research topic here..." 
-                    required
-                    class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent min-h-40 text-base"
-                ></textarea>
-            </div>
-
-            <div class="text-center">
-                <button type="submit" class="bg-primary hover:bg-secondary text-white font-bold py-3 px-8 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
-                    Generate Research
-                </button>
-            </div>
-        </form>
-
-        <div class="mt-8 p-4 bg-gray-50 rounded-lg">
-            <h3 class="font-semibold text-gray-700 mb-2">Example Topics:</h3>
-            <div class="flex flex-wrap gap-2">
-                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-300" onclick="document.getElementById('query').value='The impact of artificial intelligence on modern healthcare'">AI in Healthcare</span>
-                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-300" onclick="document.getElementById('query').value='Climate change adaptation strategies for urban areas'">Climate Change</span>
-                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-300" onclick="document.getElementById('query').value='The evolution of quantum computing and its practical applications'">Quantum Computing</span>
-                <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm cursor-pointer hover:bg-gray-300" onclick="document.getElementById('query').value='Sustainable architecture principles for the 21st century'">Sustainable Architecture</span>
+<body class="min-h-screen bg-gray-50">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white shadow-sm z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <span class="text-4xl font-bold text-gray-800 font-Quintessential">AI Research Assistant</span>
+                <div class="flex space-x-4">
+                    <a href="/" class="px-3 py-2 rounded-md text-blue-600">Home</a>
+                    <a href="#features" class="px-3 py-2 rounded-md text-gray-600 hover:text-blue-600">Features</a>
+                    <a href="#about" class="px-3 py-2 rounded-md text-gray-600 hover:text-blue-600">About</a>
+                    <a href="https://www.siddheshnikam.online" target="_blank" class="px-3 py-2 rounded-md text-blue-600">
+                        Portfolio
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
+    </nav>
+
+    <!-- Hero Section - Matching portfolio style -->
+    <section class="pt-20 pb-[1px] bg-gradient-to-r from-blue-200 to-indigo-200 rounded-b-3xl shadow-md">
+        <div class="max-w-6xl mx-auto px-2">
+            <div class="text-center">
+                <p class="text-xl font-medium text-gray-600 mb-8">
+                    Generate comprehensive research on any topic with advanced AI capabilities. <a href="https://github.com/siddheshengineer/LLM-based-projects/tree/main/agents/research_agent" target="_blank" rel="noopener noreferrer" 
+                    class="text-gray-600 hover:text-gray-900">
+                    <i class="fab fa-github w-6 h-6"></i>
+                </a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section id="research-form" class="py-4 bg-slate-50">
+        <div class="max-w-6xl mx-auto px-4">
+            
+            <!-- Research Form - Full Width -->
+            <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">Research Query</h3>
+                <form action="/research" method="post" class="mt-4">
+                    <div class="mb-6">
+                        <label for="query" class="block font-semibold text-gray-800 mb-2">
+                            What would you like to research?
+                        </label>
+                        <textarea 
+                            id="query" 
+                            name="query" 
+                            placeholder="Enter your research topic here..." 
+                            required
+                            class="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent h-48 text-base"
+                        ></textarea>
+                    </div>
+                    <button type="submit" class="w-full max-w-md mx-auto block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition duration-300 ease-in-out transform hover:scale-105">
+                        Generate Research
+                    </button>
+                </form>
+            </div>
+                
+            <!-- Examples in horizontal row -->
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">Example Topics</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <!-- Example 1 -->
+                    <div class="flex gap-3 items-start">
+                        <div class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 rounded-lg flex-shrink-0">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900 mb-1">AI in Healthcare</h4>
+                            <p class="text-gray-600 text-sm mb-2">Explore impacts and applications</p>
+                            <button onclick="document.getElementById('query').value='The impact of artificial intelligence on modern healthcare'" 
+                                    class="text-blue-600 text-sm hover:underline">
+                                Use this topic
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Example 2 -->
+                    <div class="flex gap-3 items-start">
+                        <div class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 rounded-lg flex-shrink-0">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900 mb-1">Climate Change</h4>
+                            <p class="text-gray-600 text-sm mb-2">Urban adaptation strategies</p>
+                            <button onclick="document.getElementById('query').value='Climate change adaptation strategies for urban areas'" 
+                                    class="text-blue-600 text-sm hover:underline">
+                                Use this topic
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Example 3 -->
+                    <div class="flex gap-3 items-start">
+                        <div class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 rounded-lg flex-shrink-0">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900 mb-1">Quantum Computing</h4>
+                            <p class="text-gray-600 text-sm mb-2">Evolution and applications</p>
+                            <button onclick="document.getElementById('query').value='The evolution of quantum computing and its practical applications'" 
+                                    class="text-blue-600 text-sm hover:underline">
+                                Use this topic
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Example 4 -->
+                    <div class="flex gap-3 items-start">
+                        <div class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 rounded-lg flex-shrink-0">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900 mb-1">Sustainable Architecture</h4>
+                            <p class="text-gray-600 text-sm mb-2">21st century design</p>
+                            <button onclick="document.getElementById('query').value='Sustainable architecture principles for the 21st century'" 
+                                    class="text-blue-600 text-sm hover:underline">
+                                Use this topic
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section - Using similar style to Example Topics -->
+    <section id="features" class="py-4 bg-gradient-to-r from-gray-50 to-slate-100 scroll-mt-16">
+        <div class="max-w-6xl mx-auto px-4">          
+            <!-- Features in horizontal row with same styling as examples -->
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">Key Features - What Makes This Tool Special</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Feature 1 -->
+                    <div class="flex gap-3 items-start">
+                        <div class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 rounded-lg flex-shrink-0">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900 mb-1">Fast Results</h4>
+                            <p class="text-gray-600 text-sm">Generate comprehensive research in seconds with advanced AI processing capabilities.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Feature 2 -->
+                    <div class="flex gap-3 items-start">
+                        <div class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 rounded-lg flex-shrink-0">
+                            <i class="fas fa-file-download"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900 mb-1">Easy Download</h4>
+                            <p class="text-gray-600 text-sm">Save your research with one click for easy reference, sharing, and collaboration.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Feature 3 -->
+                    <div class="flex gap-3 items-start">
+                        <div class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 rounded-lg flex-shrink-0">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-900 mb-1">AI Powered</h4>
+                            <p class="text-gray-600 text-sm">Leveraging LangChain & LLM Agents for accurate, comprehensive, and reliable research.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     
-    <footer class="text-center py-4 text-gray-600 text-sm">
-        &copy; 2025 Research Assistant | Powered by LangChain & Gemini | Creator: Siddhesh Nikam
+    <!-- About Section -->
+    <section id="about" class="py-4 bg-slate-50 scroll-mt-16">
+        <div class="max-w-6xl mx-auto px-4">
+            
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <h3 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">Project Overview</h3>
+                <p class="text-gray-700 mb-4">
+                    This <span class="font-semibold">AI Research Assistant</span> is designed to help students, professionals, and researchers generate comprehensive insights on any topic.  Powered by advanced AI models, <span class="font-semibold">LLM Agents, Tools</span>, and powered by <span class="font-semibold">advanced AI models</span>, it streamlines the research process by providing well-structured information instantly.
+                </p>
+                <!-- Legal Disclaimer -->
+                <div class="mt-6 bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <p class="text-sm text-gray-600">
+                        This AI Research Assistant is a demonstration project created for educational and illustrative purposes only. The information generated by this tool is not intended to be used as authoritative research or as a replacement for professional advice. All content created by this AI may contain inaccuracies or errors and should be verified through additional sources. Users should exercise their own judgment when reviewing AI-generated content. The creator of this project is not responsible for any actions taken based on the information provided by this tool.
+                    </p>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer - Matching portfolio style -->
+    <footer class="py-8 bg-gray-900 text-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <p>© 2025 Research Assistant | Powered by GenAI | Creator: Siddhesh Nikam</p>
+                </div>
+                <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6">
+                    <a href="mailto:siddheshnikam.online.headscarf283@passinbox.com" class="hover:text-gray-300">Contact</a>
+                    <a href="https://www.siddheshnikam.online" target="_blank" class="hover:text-gray-300">Portfolio</a>
+                </div>
+            </div>
+        </div>
     </footer>
 </body>
 </html>

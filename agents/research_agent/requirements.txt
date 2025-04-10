@@ -5,6 +5,7 @@ langchain-community
 
 # Python specific packages
 python-dotenv
+pytest
 pydantic
 fastapi
 uvicorn[standard]

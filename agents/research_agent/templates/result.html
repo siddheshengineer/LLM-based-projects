@@ -12,12 +12,19 @@
                     colors: {
                         primary: '#4361ee',
                         secondary: '#3f37c9',
-                        accent: '#f72585'
+                        accent: '#f72585',
+                        light: '#f8f9fa',
+                        dark: '#212529'
+                    },
+                    fontFamily: {
+                        'Quintessential': ['Quintessential', 'serif'],
                     }
                 }
             }
         }
     </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quintessential&display=swap" rel="stylesheet">
     <script>
         // Function to trigger automatic download
         window.onload = function() {
@@ -32,46 +39,121 @@
         }
     </script>
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <div class="container max-w-4xl mx-auto my-8 px-4">
-        <header class="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h1 class="text-3xl font-bold text-primary mb-2">Research Results</h1>
-            <h2 class="text-xl font-semibold text-gray-700">Topic: {{ query }}</h2>
-        </header>
-        
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6 border-l-4 border-primary">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Generated Research</h3>
-            <div class="bg-gray-50 p-4 rounded whitespace-pre-wrap text-gray-700">{{ output }}</div>
+<body class="min-h-screen bg-gray-50">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white shadow-sm z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <span class="text-4xl font-bold text-gray-800 font-Quintessential">AI Research Assistant</span>
+                <div class="flex space-x-4">
+                    <a href="/" class="px-3 py-2 rounded-md text-gray-600 hover:text-blue-600">Home</a>
+                    <a href="/#features" class="px-3 py-2 rounded-md text-gray-600 hover:text-blue-600">Features</a>
+                    <a href="/#about" class="px-3 py-2 rounded-md text-gray-600 hover:text-blue-600">About</a>
+                    <a href="https://www.siddheshnikam.online" target="_blank" class="px-3 py-2 rounded-md text-blue-600">
+                        Portfolio
+                    </a>
+                </div>
+            </div>
         </div>
-        
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6 border-l-4 border-accent">
-            <h3 class="text-lg font-semibold text-gray-800 mb-3">File Saved</h3>
-            <p class="text-gray-600 mb-4">Your research has been saved and is ready for download.</p>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="pt-24 pb-12">
+        <div class="max-w-6xl mx-auto px-4">
+            <!-- Header -->
+            <section class="bg-gradient-to-r from-blue-200 to-indigo-200 rounded-lg shadow-md p-6 mb-6">
+                <div class="flex items-center mb-3">
+                    <i class="fas fa-search text-blue-700 text-2xl mr-3"></i>
+                    <h1 class="text-3xl font-bold text-gray-900">Research Results</h1>
+                </div>
+                <h2 class="text-xl font-semibold text-gray-700">
+                    Topic: <span class="text-blue-700">{{ query }}</span>
+                </h2>
+            </section>
             
-            {% if save_msg %}
-                <a 
-                    id="download-link"
-                    href="{{ save_msg }}" 
-                    download 
-                    class="inline-block bg-accent hover:bg-pink-600 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5  w-5 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                    Download Research
+            <!-- Research Content - Grid layout like portfolio -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <!-- Main Content Column - Wider -->
+                <div class="md:col-span-2 space-y-6">
+                    <!-- Research Output -->
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">Generated Research</h3>
+                        <div class="bg-gray-50 p-6 rounded border border-gray-200 whitespace-pre-wrap text-gray-700 leading-relaxed">{{ output }}</div>
+                        
+                        <!-- Action buttons aligned with portfolio style -->
+                        <div class="mt-6 flex flex-wrap gap-3">
+                            <button onclick="window.print()" class="flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-md transition duration-300">
+                                <i class="fas fa-print mr-2"></i> Print
+                            </button>
+                            <button onclick="navigator.clipboard.writeText(document.querySelector('.whitespace-pre-wrap').innerText)" class="flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition duration-300">
+                                <i class="fas fa-copy mr-2"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sidebar Column -->
+                <div class="space-y-6">
+                    <!-- Download Card -->
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">Download</h3>
+                        <div class="p-4 bg-green-50 rounded-lg border border-green-200 mb-4">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 flex items-center justify-center bg-green-100 text-green-700 rounded-full flex-shrink-0 mr-3">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <p class="text-gray-700">Your research has been saved and is ready for download.</p>
+                            </div>
+                        </div>
+                        
+                        {% if save_msg %}
+                            <a 
+                                id="download-link"
+                                href="{{ save_msg }}" 
+                                download 
+                                class="w-full inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md transition duration-300 ease-in-out text-center"
+                            >
+                                <i class="fas fa-file-download mr-2"></i>
+                                Download Research
+                            </a>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Related Topics Card - Adding value like portfolio -->
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">Related Research Topics</h3>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-gray-50 rounded-lg border border-gray-200 hover:border-blue-300 cursor-pointer transition-colors" onclick="window.location.href='/'">
+                                <h4 class="font-medium text-gray-900 mb-1">Explore More Topics</h4>
+                                <p class="text-gray-600 text-sm">Return to the home page to research another topic</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation Buttons -->
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8 mb-6">
+                <a href="/" class="flex-1 flex items-center justify-center bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out text-center">
+                    <i class="fas fa-redo mr-2"></i> Research Another Topic
                 </a>
-            {% endif %}
-        </div>
-        
-        <div class="text-center">
-            <a href="/" class="inline-block bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out">
-                Research Another Topic
-            </a>
+            </div>
         </div>
     </div>
     
-    <footer class="text-center py-4 text-gray-600 text-sm">
-        &copy; 2025 Research Assistant | Powered by LangChain & Gemini | Creator: Siddhesh Nikam
+    <!-- Footer - Matching portfolio style -->
+    <footer class="py-8 bg-gray-900 text-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <p>© 2025 Research Assistant | Powered by GenAI | Creator: Siddhesh Nikam</p>
+                </div>
+                <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6">
+                    <a href="mailto:siddheshnikam.online.headscarf283@passinbox.com" class="hover:text-gray-300">Contact</a>
+                    <a href="https://www.siddheshnikam.online" class="hover:text-gray-300">Portfolio</a>
+                </div>
+            </div>
+        </div>
     </footer>
 </body>
 </html>

@@ -1,0 +1,14 @@
+name: Research Agent CI
+
+on:
+    push:
+        paths:
+        - 'agents/research_agent/**'
+        - '**.py'
+        - '**.html'
+
+jobs:
+    
+
+      
+        

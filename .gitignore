@@ -8,3 +8,5 @@ venv/
 # Custom
 .env
 __pycache__
+downloads/
+.pytest_cache/
