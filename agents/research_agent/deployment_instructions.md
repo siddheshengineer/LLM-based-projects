@@ -17,7 +17,7 @@ az containerapp create \
   --image $IMAGE:TAG \
   --target-port 8000 \
   --ingress 'external' \
-  --environment '$ENV_NAME' \
+  --environment $ENV_NAME \
   --registry-server index.docker.io \
   --registry-username $REG_USER \
   --registry-password $REG_TOKEN \

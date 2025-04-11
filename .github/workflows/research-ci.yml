@@ -1,13 +1,103 @@
-name: Research Agent CI
+# name: Research Agent CI
 
-on:
-    push:
-        paths:
-        - 'agents/research_agent/**'
-        - '**.py'
-        - '**.html'
+# on:
+#     push:
+#         branches: [main]
+#         paths:
+#         - 'agents/research_agent/**'
+#         # - '**.py'
+#         # - '**.html'
+#     pull_request:
+#         branches: [ main ]
+#         paths:
+#         - 'agents/research_agent/**'
 
-jobs:
+# env:
+#   python-version: '3.9'
+
+# jobs:
+#     unit_test:
+#         name: Run unit tests
+#         runs-on: ubuntu-latest
+
+#         steps:
+#             - name: Code checkout
+#               uses: actions/checkout@v4
+            
+#             - name: Setup Python
+#               uses: actions/setup-python@v5
+#               with:
+#                 python-version: ${{ env.python-version }}
+#                 cache: 'pip' # caching pip dependencies
+    
+#             - name: Install dependencies
+#               run: pip install -r agents/research_agent/requirements.txt
+    
+#     build_and_deploy:
+#         name: Build, Scan, Push, and Deploy
+#         runs-on: ubuntu-latest
+#         needs: [unit_test]
+#         environment: production
+
+#         env:
+#             REGISTRY: ghcr.io
+#             IMAGE_NAME: ${{ github.repository }}
+#         outputs:
+#             image_tag: ${{ steps.set_output.outputs.image_tag }}
+
+#         steps:
+#           - name: Code checkout
+#             uses: actions/checkout@v4
+        
+#           - name: Log in to Azure
+#             uses: azure/login@v1
+#             with:
+#               creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+#           - name: Login to Github Container Registry
+#             uses: docker/login-action@v3
+#             with:
+#                 registry: ${{ env.REGISTRY}}
+#                 username: ${{ github.actor }}
+#                 password: ${{ secrets.GHCR_TOKEN }}
+            
+#           - name: Setup Docker
+#             uses: docker/setup-buildx-action@v3
+        
+#           - name: Build Docker Image
+#             uses: docker/build-push-action@v6
+#             with:
+#                 context: ./agents/research_agent
+#                 push: false
+#                 tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
+#                 load: true
+            
+#           - name: Run vulnerability scan (Trivy)
+#             uses: aquasecurity/trivy-action@0.30.0
+#             with: 
+#                 image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
+#                 format: 'table'
+#                 #exit-code: '1'
+#                 ignore-unfixed: true
+#                 vuln-type: 'os,library'
+#                 severity: 'CRITICAL'
+        
+#           - name: Push images to GHCR
+#             run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
+        
+#           - name: Output Image name
+#             run: echo "image_tag=$(echo ${{ github.run_number }})" >> $GITHUB_OUTPUT
+
+#           - name: Deploy to Azure Container Apps 
+#             uses: Azure/container-apps-deploy-action@v2
+#             with:
+#                 imageToDeploy: ${{ env.IMAGE_NAME }}:${{ github.run_number }}
+#                 containerAppName: your-containerapp-name
+#                 resourceGroup: your-resource-group-name
+#                 environment: your-containerapp-environment-name
+
+
+
     
 
       
