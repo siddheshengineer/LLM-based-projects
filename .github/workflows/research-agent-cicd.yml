@@ -35,7 +35,8 @@ jobs:
               run: pip install -r agents/research_agent/requirements.txt
             
             - name: Run test cases
-              run: pytest agents/research_agent/test_endpoints.py -v
+              working-directory: ./agents/research_agent/
+              run: pytest test_endpoints.py -v
     
     build_and_deploy:
         name: Build, Scan, Push, and Deploy
