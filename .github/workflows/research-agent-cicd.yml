@@ -46,7 +46,8 @@ jobs:
 
         env:
             REGISTRY: docker.io
-            CONTAINER_REPO: ${{ secrets.REG_USER }}/${{ secrets.CONTAINER_REPOSITORY_NAME }} 
+            DOCKER_USER: ${{ secrets.REG_USER }}
+            DOCKER_REPO: ${{ secrets.CONTAINER_REPOSITORY_NAME }} 
             IMAGE_TAG: llm_research_agent-${{ github.run_number }}
 
         steps:
@@ -73,13 +74,13 @@ jobs:
             with:
                 context: ./agents/research_agent
                 push: false
-                tags: ${{ env.REGISTRY }}/${{ env.CONTAINER_REPO }}:${{ env.IMAGE_TAG }}
+                tags: ${{ env.REGISTRY }}/${{ env.DOCKER_USER }}/${{ env.DOCKER_REPO }}:${{ env.IMAGE_TAG }}
                 load: true
             
           - name: Run vulnerability scan (Trivy)
             uses: aquasecurity/trivy-action@0.30.0
             with: 
-                image-ref: ${{ env.REGISTRY }}/${{ env.CONTAINER_REPO }}:${{ env.IMAGE_TAG }}
+                image-ref: ${{ env.REGISTRY }}/${{ env.DOCKER_USER }}/${{ env.DOCKER_REPO }}:${{ env.IMAGE_TAG }}
                 format: 'table'
                 #exit-code: '1'
                 ignore-unfixed: true
@@ -87,7 +88,7 @@ jobs:
                 severity: 'CRITICAL'
         
           - name: Push images to DHCR
-            run: docker push ${{ env.REGISTRY }}/${{ env.CONTAINER_REPO }}:${{ env.IMAGE_TAG }}
+            run: docker push ${{ env.REGISTRY }}/${{ env.DOCKER_USER }}/${{ env.DOCKER_REPO }}:${{ env.IMAGE_TAG }}
         
           - name: Output Image name
             run: echo "image_tag=$(echo ${{ github.run_number }})" >> $GITHUB_OUTPUT
@@ -95,7 +96,7 @@ jobs:
           - name: Deploy to Azure Container Apps 
             uses: Azure/container-apps-deploy-action@v2
             with:
-                imageToDeploy: ${{ env.REGISTRY }}/${{ env.CONTAINER_REPO }}:${{ env.IMAGE_TAG }}
+                imageToDeploy: ${{ env.REGISTRY }}/${{ env.DOCKER_USER }}/${{ env.DOCKER_REPO }}:${{ env.IMAGE_TAG }}
                 containerAppName: ${{ secrets.AZURE_APP_NAME }}
                 resourceGroup: ${{ secrets.AZURE_RG_NAME }}
                 containerAppEnvironment: ${{ secrets.AZURE_ENV_NAME }}
