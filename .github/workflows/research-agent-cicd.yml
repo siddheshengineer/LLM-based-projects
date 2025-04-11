@@ -1,0 +1,105 @@
+name: Research Agent CI/CD
+
+on:
+    push:
+        branches: [main]
+        paths:
+        - 'agents/research_agent/**' 
+        # - '**.py'
+        # - '**.html'
+    pull_request:
+        branches: [ main ]
+        paths:
+        - 'agents/research_agent/**'
+
+env:
+  python-version: '3.9'
+
+jobs:
+    unit_test:
+        name: Run unit tests
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Code checkout
+              uses: actions/checkout@v4
+            
+            - name: Setup Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: ${{ env.python-version }}
+                cache: 'pip' # caching pip dependencies
+    
+            - name: Install dependencies
+              run: pip install -r agents/research_agent/requirements.txt
+    
+    build_and_deploy:
+        name: Build, Scan, Push, and Deploy
+        runs-on: ubuntu-latest
+        needs: [unit_test]
+        environment: Production
+
+        env:
+            REGISTRY: docker.io
+            CONTAINER_REPO: ${{ secrets.REG_USER }}/${{ secrets.CONTAINER_REPOSITORY_NAME }} 
+            IMAGE_TAG: llm_research_agent:${{ github.run_number }}
+
+        steps:
+          - name: Code checkout
+            uses: actions/checkout@v4
+        
+          - name: Log in to Azure
+            uses: azure/login@v1
+            with:
+              creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+          - name: Login to Docker Container Registry
+            uses: docker/login-action@v3
+            with:
+                registry: ${{ env.REGISTRY}}
+                username: ${{ secrets.REG_USER }}
+                password: ${{ secrets.REG_TOKEN }}
+            
+          - name: Setup Docker
+            uses: docker/setup-buildx-action@v3
+        
+          - name: Build Docker Image
+            uses: docker/build-push-action@v6
+            with:
+                context: ./agents/research_agent
+                push: false
+                tags: ${{ env.REGISTRY }}/${{ env.CONTAINER_REPO }}/${{ env.IMAGE_TAG }}
+                load: true
+            
+          - name: Run vulnerability scan (Trivy)
+            uses: aquasecurity/trivy-action@0.30.0
+            with: 
+                image-ref: ${{ env.REGISTRY }}/${{ env.CONTAINER_REPO }}/${{ env.IMAGE_TAG }}
+                format: 'table'
+                #exit-code: '1'
+                ignore-unfixed: true
+                vuln-type: 'os,library'
+                severity: 'CRITICAL'
+        
+          - name: Push images to DHCR
+            run: docker push ${{ env.REGISTRY }}/${{ env.CONTAINER_REPO }}/${{ env.IMAGE_TAG }}
+        
+          - name: Output Image name
+            run: echo "image_tag=$(echo ${{ github.run_number }})" >> $GITHUB_OUTPUT
+
+          - name: Deploy to Azure Container Apps 
+            uses: Azure/container-apps-deploy-action@v2
+            with:
+                imageToDeploy: ${{ env.REGISTRY }}/${{ env.CONTAINER_REPO }}/${{ env.IMAGE_TAG }}
+                containerAppName: ${{ secrets.AZURE_APP_NAME }}
+                resourceGroup: ${{ secrets.AZURE_RG_NAME }}
+                containerAppEnvironment: ${{ secrets.AZURE_ENV_NAME }}
+                environmentVariables: |
+                  GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }}
+
+
+
+    
+
+      
+        
