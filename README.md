@@ -1,78 +1,81 @@
-# LLM-Based Containerization
+# Repository Overview
 
-Welcome to the **LLM-Based Containerization** repository! This project leverages **Large Language Models (LLMs)** to generate optimized Dockerfiles for various programming languages, ensuring best practices and efficiency.
+**[AI Research Agent](https://ai.siddheshnikam.online/)**
 
-##  Features
-- **Automated Dockerfile Generation**: Uses `llama3.2:1b` model from `ollama` to generate Dockerfiles dynamically.
-- **Google Gemini 2.0 Integration**: A new script leverages `Google Gemini 2.0` via `Google AI Studio` to generate Dockerfiles remotely.
-- **Best Practices**: Ensures each Dockerfile includes an optimized base image, dependencies installation, workspace setup, and execution commands.
-- **Multi-Language Support**: Generate Dockerfiles for different programming languages on demand. If no version is provide it will automatically use the latest LTS version available.
+Welcome to the repository! This document provides an overview of the projects and files contained within.
 
-## 📦 Installation
+## Projects and Directories
 
-To use this script, you need to have Python installed along with the required dependencies.
+### 1. `Kaggel-googleGenAi-porjects/`
 
-```sh
-pip install -r requirements.txt
-```
+This directory contains projects related to Google's Generative AI, likely from a Kaggle competition or course.
 
-##  Usage
+**Files:**
 
-Run the script and input your desired programming language to generate a Dockerfile.
+- **README.md:**  Project-specific documentation.
+- **day-1-evaluation-and-structured-output.ipynb:** Jupyter Notebook for evaluating and structuring outputs from generative AI models.
+- **day-1-prompting.ipynb:**  Jupyter Notebook focusing on effective prompting techniques for generative AI models.
+- **day-2-document-q-a-with-rag.ipynb:**  Jupyter Notebook implementing a document question-answering system using Retrieval-Augmented Generation (RAG).
+- **day-2-embeddings-and-similarity-scores.ipynb:** Jupyter Notebook exploring embeddings and similarity scores in the context of generative AI.
+- **day-3-building-an-agent-with-langgraph.ipynb:** Jupyter Notebook demonstrating the creation of an AI agent using LangGraph.
+- **day-3-function-calling-with-the-gemini-api.ipynb:** Jupyter Notebook showcasing function calling capabilities with the Gemini API.
+- **day-4-fine-tuning-a-custom-model.ipynb:** Jupyter Notebook detailing the process of fine-tuning a custom generative AI model.
+- **day-4-google-search-grounding.ipynb:** Jupyter Notebook utilizing Google Search to ground or enhance the outputs of a generative AI model.
 
-```sh
-python localScript.py
-python .\hostedLLM\hostedLLMScript.py
+**Subdirectory:**
 
-```
+- **whitepapers/:** Contains relevant whitepapers as PDF documents:
+    - 22365_19_Agents_v8.pdf
+    - 22365_3_Prompt Engineering_v7.pdf
+    - Agents_Companion_v2 (3).pdf
+    - neurips_evaluation.pdf
+    - whitepaper_Foundational Large Language models & text generation_v2.pdf
+    - whitepaper_emebddings_vectorstores_v2.pdf
 
-### Example:
-Check generated_dockerFiles.md for generated examples
+### 2. `composeToManifestScript/`
 
-```
-Enter the desired programming language: Java
-Generated DockerFile: 
+This directory includes scripts for converting Docker Compose configurations to Kubernetes manifests.
 
-```dockerfile
-# syntax=docker/dockerfile:1
+**Files:**
 
-# Stage 1: Build the application
-FROM maven:3.8.1-openjdk-17 AS builder
-WORKDIR /app
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
-COPY src ./src
-RUN mvn clean install -DskipTests
+- **localScript.py:** Python script for local execution of the conversion process.
+- **script.py:**  Main Python script to perform the conversion.
 
-# Stage 2: Create the final image
-FROM eclipse-temurin:17-jre-alpine
-WORKDIR /app
-COPY --from=builder /app/target/*.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
-```
+### 3. `contanerizationScript/`
 
+This directory focuses on containerization, likely with scripts for generating Dockerfiles or managing containers.
 
-##  How It Works
-1. The script prompts the user to enter a programming language.
-2. It passes a structured prompt to the `llama3.2:1b` model using `ollama.chat()` or `Google Gemini 2.0` via `Google AI Studio`.
-3. The model generates an optimized Dockerfile based on best practices.
-4. The output is displayed in the console.
+**Files:**
 
-##  Requirements
-- Python 3.x
-- `ollama` package
-- google-generativeai package
-- Google AI Studio API Key
-- Internet connection to interact with the LLM model
+- **hostedLLMScript.py:** Script designed to work with hosted Large Language Models (LLMs) for containerization tasks.
+- **localScript.py:** Script for local containerization operations.
 
-##  Contributing
-Contributions are welcome! Please submit a pull request or open an issue for suggestions or bug reports.
+### 4. `memory-chatbot/`
 
-##  Contact
-For any queries or discussions, feel free to reach out via GitHub issues.
+Contains a chatbot implementation that incorporates memory capabilities to enable a choose your own adventure game.
 
----
+**File:**
 
-Happy Containerizing! 🐳
+- **memory-bot.py:** Python script for the memory-enabled chatbot.
 
+### 5. `agents/research_agent/`
+
+This directory houses an implementation of a research agent, an AI agent designed to assist with research tasks.
+
+**Files:**
+
+- **Dockerfile:** Defines the Docker image for the research agent.
+- **cleanup.py:**  Script for cleaning up resources or data related to the agent.
+- **core.py:**  Core logic and functionality of the research agent.
+- **deployment_instructions.md:** Instructions for deploying the research agent.
+- **docker-compose.yml:** Docker Compose file for managing the agent's services and dependencies.
+- **main.py:**  Entry point or main application file for running the agent.
+- **requirements.txt:** Lists the Python dependencies required by the agent.
+- **test_endpoints.py:**  Script for testing the agent's API endpoints.
+- **tools.py:**  Contains tools used by the research agent.
+
+**Subdirectory:**
+
+- **templates/:** Contains HTML templates for the agent's web interface.
+    - **index.html:** Main page template.
+    - **result.html:** Template for displaying research results.
