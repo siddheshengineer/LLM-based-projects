@@ -101,7 +101,7 @@ jobs:
                 resourceGroup: ${{ secrets.AZURE_RG_NAME }}
                 containerAppEnvironment: ${{ secrets.AZURE_ENV_NAME }}
                 environmentVariables: |
-                  GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }}
+                  GOOGLE_API_KEY=secretref:g-key
 
 
 
