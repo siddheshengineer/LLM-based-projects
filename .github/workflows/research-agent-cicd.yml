@@ -81,11 +81,17 @@ jobs:
             uses: aquasecurity/trivy-action@0.30.0
             with: 
                 image-ref: ${{ env.REGISTRY }}/${{ env.DOCKER_USER }}/${{ env.DOCKER_REPO }}:${{ env.IMAGE_TAG }}
-                format: 'table'
+                format: 'sarif' # SARIF (Static Analysis Results Interchange Format) is a standardized JSON format for static analysis tool results. GitHub has native support for SARIF.
+                output: trivy-result-${{ github.run_number}}.sarif
                 #exit-code: '1'
                 ignore-unfixed: true
                 vuln-type: 'os,library'
                 severity: 'CRITICAL'
+          
+          - name: Upload vulnerability scan result
+            uses: github/codeql-action/upload-sarif@v2
+            with:
+              sarif_file: trivy-result-${{ github.run_number }}.sarif
         
           - name: Push images to DHCR
             run: docker push ${{ env.REGISTRY }}/${{ env.DOCKER_USER }}/${{ env.DOCKER_REPO }}:${{ env.IMAGE_TAG }}
