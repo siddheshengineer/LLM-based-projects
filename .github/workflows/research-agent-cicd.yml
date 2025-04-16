@@ -89,7 +89,7 @@ jobs:
                 severity: 'CRITICAL'
           
           - name: Upload vulnerability scan result
-            uses: github/codeql-action/upload-sarif@v2
+            uses: github/codeql-action/upload-sarif@v3
             with:
               sarif_file: trivy-result-${{ github.run_number }}.sarif
         
