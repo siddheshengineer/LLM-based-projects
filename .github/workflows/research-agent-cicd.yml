@@ -63,7 +63,7 @@ jobs:
           run: bandit -ll -ii -r -f html -o bandit-scan-${{ github.run_number }}.html .
 
         - name: Upload bandit scan
-          uses: actions/upload-artifact@@v4
+          uses: actions/upload-artifact@v4
           if: always()
           with:
             name: bandit-findings
