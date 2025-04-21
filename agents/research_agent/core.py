@@ -15,7 +15,7 @@ if not google_api_key:
 llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", google_api_key=google_api_key)
 
 
-# ----------------- Research Agent Setup ----------------- # #
+# ----------------- Research Agent Setup ----------------- #
 # Define the prompt for generating research
 research_prompt = ChatPromptTemplate.from_messages(
     [
