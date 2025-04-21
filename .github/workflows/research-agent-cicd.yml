@@ -60,7 +60,7 @@ jobs:
           run: pip install bandit
         
         - name: Run Bandit scan
-          run: bandit -ll -ii -r .
+          run: bandit -ll -ii -r -f html -o bandit_scan-${{ github.run_number }}.json .
     
     build_and_deploy:
         name: Build, Scan, Push, and Deploy
