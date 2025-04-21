@@ -64,7 +64,7 @@ jobs:
 
         - name: Upload bandit scan
           uses: actions/upload-artifact@@v4
-          if: always() #always run irrespetive of previous steps
+          if: always()
           with:
             name: bandit-findings
             path: bandit-scan-${{ github.run_number }}.html
